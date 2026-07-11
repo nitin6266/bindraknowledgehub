@@ -18,7 +18,7 @@ const pagesData = {
     title: "About Us",
     description:
       "Our story, mission and the family-driven values that make Bindra Knowledge Hub a place where students thrive.",
-    status: "coming-soon",
+    status: "published",
   },
   courses: {
     slug: "/courses",
