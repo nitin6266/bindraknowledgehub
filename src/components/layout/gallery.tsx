@@ -1,6 +1,6 @@
 "use client";
 
-import { Users, BookOpen, Award, Star, Zap, Heart, Image} from "lucide-react";
+import { Users, BookOpen, Award, Star, Zap, Heart, ImageIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { Badge } from "@/components/ui/badge";
@@ -47,7 +47,7 @@ export function Gallery() {
       <Container>
         <div className="mx-auto max-w-3xl text-center mb-12 lg:mb-16">
           <Badge variant="accent" className="mb-4 inline-flex">
-            <Image aria-hidden="true" className="size-3.5" />
+            <ImageIcon aria-hidden="true" className="size-3.5" />
             Gallery
           </Badge>
           <Heading as="h2" id="gallery-heading" size="display" align="center" className="max-w-3xl">

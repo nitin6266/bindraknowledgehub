@@ -1,13 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 import { buildMetadata, siteConfig } from "@/lib/site";
+import { organizationJsonLd, websiteJsonLd, serializeJsonLd } from "@/lib/structured-data";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
+import { ThemeProvider, themeNoFlashScript } from "@/components/theme/theme-provider";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { StickyBottomCta } from "@/components/layout/sticky-cta";
 import { PageTransition } from "@/components/animations/page-transition";
+import { SiteOverlays } from "@/components/layout/site-chrome";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,29 +41,27 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "EducationalOrganization",
-  name: siteConfig.name,
-  url: siteConfig.url,
-  description: siteConfig.description,
-  email: siteConfig.contact.email,
-  telephone: siteConfig.contact.phone,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: siteConfig.contact.address,
-    addressCountry: "IN",
-  },
-  sameAs: Object.values(siteConfig.social),
-};
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const orgJsonLd = organizationJsonLd();
+  const siteJsonLd = websiteJsonLd();
+
   return (
-    <html lang="en" className={cn(inter.variable, plusJakarta.variable, fraunces.variable)}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn(inter.variable, plusJakarta.variable, fraunces.variable)}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeNoFlashScript }} />
+      </head>
       <body className="flex min-h-screen flex-col">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(orgJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteJsonLd) }}
         />
 
         <a
@@ -70,14 +71,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
 
-        <Navbar />
+        <ThemeProvider>
+          <Navbar />
 
-        <main id="main" className="flex-1 pt-16">
-          <PageTransition>{children}</PageTransition>
-        </main>
+          <main id="main" className="flex-1 pt-16">
+            <PageTransition>{children}</PageTransition>
+          </main>
 
-        <Footer />
-        <StickyBottomCta />
+          <Footer />
+          <StickyBottomCta />
+        </ThemeProvider>
+
+        <SiteOverlays />
       </body>
     </html>
   );

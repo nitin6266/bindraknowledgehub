@@ -8,6 +8,7 @@ import { siteConfig } from "@/lib/site";
 import { useScrolled } from "@/hooks/useScrolled";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 interface NavbarProps {
   /** When true the bar is transparent until the user scrolls (hero pages). */
@@ -66,6 +67,8 @@ export function Navbar({ transparentTop = true }: NavbarProps) {
         <DesktopNav pathname={pathname} isHome={isHome} />
 
         <div className="flex items-center gap-2">
+          <ThemeToggle />
+
           <Button asChild size="sm" className="hidden sm:inline-flex">
             <Link href="/admissions">Admissions</Link>
           </Button>

@@ -51,7 +51,7 @@ export function buildMetadata(overrides?: Partial<Metadata>): Metadata {
 
   const description = overrides?.description ?? siteConfig.description;
 
-  return {
+   return {
     metadataBase: new URL(siteConfig.url),
     title,
     description,
@@ -59,9 +59,14 @@ export function buildMetadata(overrides?: Partial<Metadata>): Metadata {
     authors: [{ name: siteConfig.name }],
     creator: siteConfig.name,
     publisher: siteConfig.name,
+    category: "education",
     formatDetection: { telephone: true, email: true, address: true },
     alternates: {
       canonical: overrides?.alternates?.canonical ?? "/",
+    },
+    icons: {
+      icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+      apple: [{ url: "/apple-icon.svg" }],
     },
     openGraph: {
       type: "website",
