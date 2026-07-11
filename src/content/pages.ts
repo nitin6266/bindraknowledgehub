@@ -32,14 +32,14 @@ const pagesData = {
     title: "Faculty",
     description:
       "Meet the dedicated educators who guide, mentor and inspire every student at Bindra Knowledge Hub.",
-    status: "coming-soon",
+    status: "published",
   },
   results: {
     slug: "/results",
     title: "Results",
     description:
       "Celebrating the achievements, milestones and success stories of our students.",
-    status: "coming-soon",
+    status: "published",
   },
   gallery: {
     slug: "/gallery",
@@ -61,6 +61,13 @@ const pagesData = {
     description:
       "Get in touch with Bindra Knowledge Hub — visits, enquiries and admissions questions welcome.",
     status: "coming-soon",
+  },
+  community: {
+    slug: "/community",
+    title: "Success Stories & Campus Life",
+    description:
+      "Student success stories, parent experiences and a glimpse into the warm learning environment at Bindra Knowledge Hub.",
+    status: "published",
   },
   admissions: {
     slug: "/admissions",
