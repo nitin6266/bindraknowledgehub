@@ -222,6 +222,7 @@ export default function AboutPage() {
                 name={member.name}
                 role={member.role}
                 initials={member.initials}
+                image={member.image}
               />
             ))}
           </Grid>
