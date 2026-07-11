@@ -25,7 +25,7 @@ const pagesData = {
     title: "Courses",
     description:
       "Explore thoughtfully designed courses that build strong academic foundations across grades and subjects.",
-    status: "coming-soon",
+    status: "published",
   },
   faculty: {
     slug: "/faculty",
