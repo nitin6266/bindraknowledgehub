@@ -74,7 +74,7 @@ const pagesData = {
     title: "Admissions",
     description:
       "Begin your journey with us. Learn about the admissions process, requirements and timelines.",
-    status: "coming-soon",
+    status: "published",
   },
 } satisfies Record<string, PageMeta>;
 
