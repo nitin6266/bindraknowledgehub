@@ -1,0 +1,59 @@
+/**
+ * Animation utilities — declarative helpers for subtle, brand-aligned motion.
+ * Components prefer Framer Motion (see lib/motion.ts) for orchestration;
+ * these CSS classes cover lightweight, reduced-motion-safe entrances.
+ * Kept at top level (no @layer) because this file is imported separately
+ * and compiled before Tailwind's layer directives are available.
+ */
+
+.animate-enter {
+  animation: fade-up var(--duration-normal) var(--ease-soft-out) both;
+}
+
+.animate-enter-fade {
+  animation: fade-in var(--duration-normal) var(--ease-soft-out) both;
+}
+
+.animate-enter-scale {
+  animation: scale-in var(--duration-normal) var(--ease-soft-out) both;
+}
+
+.motion-safe-hover {
+  transition: transform var(--duration-normal) var(--ease-soft-out),
+    box-shadow var(--duration-normal) var(--ease-soft-out);
+}
+
+.motion-safe-hover:hover {
+  transform: translateY(-2px);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,214 @@
+/**
+ * Design Tokens — Bindra Knowledge Hub
+ * ------------------------------------
+ * Single source of truth for the visual language.
+ * Surfaced to Tailwind via tailwind.config.ts.
+ *
+ * Categories:
+ *   - Color (brand, semantic, surface)
+ *   - Typography scale & font roles
+ *   - Spacing rhythm
+ *   - Border radius
+ *   - Elevation (shadows)
+ *   - Motion (duration, easing, spring)
+ *   - Layout (container widths)
+ *
+ * Light theme is the default. A `.dark` class on <html> switches to the
+ * dark palette (tokens only — components consume variables, not raw values).
+ */
+
+:root {
+  /* ---------------------------------------------------------------- */
+  /* Color — Brand                                                    */
+  /* Warm, premium, trustworthy. A grounded bronze primary with a     */
+  /* hopeful gold accent and an ivory surface for calm reading.       */
+  /* ---------------------------------------------------------------- */
+  --brand-50: 42 60% 96%;
+  --brand-100: 40 55% 90%;
+  --brand-200: 38 50% 82%;
+  --brand-300: 36 48% 70%;
+  --brand-400: 32 50% 58%;
+  --brand-500: 28 60% 46%;
+  --brand-600: 24 65% 38%;
+  --brand-700: 22 62% 32%;
+  --brand-800: 20 58% 26%;
+  --brand-900: 18 55% 20%;
+
+  --gold-400: 45 92% 62%;
+  --gold-500: 43 90% 52%;
+  --gold-600: 40 88% 44%;
+
+  /* ---------------------------------------------------------------- */
+  /* Color — Semantic                                                 */
+  /* ---------------------------------------------------------------- */
+  --background: 40 33% 98%;
+  --foreground: 24 12% 12%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 24 12% 12%;
+
+  --primary: var(--brand-600);
+  --primary-foreground: 40 33% 98%;
+
+  --secondary: 30 35% 92%;
+  --secondary-foreground: 24 20% 22%;
+
+  --accent: var(--gold-500);
+  --accent-foreground: 24 40% 14%;
+
+  --muted: 30 25% 94%;
+  --muted-foreground: 24 8% 42%;
+
+  --destructive: var(--danger);
+  --destructive-foreground: var(--danger-foreground);
+
+  --success: 142 55% 38%;
+  --success-foreground: 0 0% 100%;
+
+  --info: 212 72% 52%;
+  --info-foreground: 0 0% 100%;
+
+  --warning: 38 92% 50%;
+  --warning-foreground: 24 40% 14%;
+
+  --danger: 0 72% 48%;
+  --danger-foreground: 0 0% 100%;
+
+  --surface: 40 30% 95%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 24 12% 12%;
+
+  --border: 30 20% 86%;
+  --input: 30 20% 86%;
+  --ring: var(--brand-500);
+
+  /* ---------------------------------------------------------------- */
+  /* Typography                                                       */
+  /* Font families are injected by next/font in layout.tsx as         */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-heading: "Plus Jakarta Sans", var(--font-sans);
+  --font-serif: "Fraunces", Georgia, serif;
+
+  /* ---------------------------------------------------------------- */
+  /* Spacing rhythm                                                   */
+  /* ---------------------------------------------------------------- */
+  --spacing-section-y: 5.5rem;
+  --spacing-section-y-sm: 3.5rem;
+  --spacing-content-x: 1.25rem;
+
+  /* ---------------------------------------------------------------- */
+  /* Border radius                                                    */
+  /* ---------------------------------------------------------------- */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+
+  /* ---------------------------------------------------------------- */
+  /* Elevation                                                        */
+  /* ---------------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px 0 hsl(24 12% 12% / 0.04);
+  --shadow-sm: 0 1px 3px 0 hsl(24 12% 12% / 0.06), 0 1px 2px -1px hsl(24 12% 12% / 0.06);
+  --shadow-md: 0 4px 12px -2px hsl(24 12% 12% / 0.08), 0 2px 6px -2px hsl(24 12% 12% / 0.06);
+  --shadow-lg: 0 12px 28px -6px hsl(24 12% 12% / 0.12), 0 4px 10px -4px hsl(24 12% 12% / 0.08);
+  --shadow-xl: 0 24px 48px -12px hsl(24 12% 12% / 0.18), 0 8px 16px -8px hsl(24 12% 12% / 0.1);
+  --shadow-glow: 0 0 0 1px hsl(var(--accent) / 0.35), 0 8px 30px -8px hsl(var(--accent) / 0.45);
+  --shadow-glass: inset 0 1px 0 0 hsl(0 0% 100% / 0.5), 0 8px 32px -8px hsl(24 12% 12% / 0.12);
+
+  /* ---------------------------------------------------------------- */
+  /* Motion — durations (ms)                                          */
+  /* ---------------------------------------------------------------- */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 600ms;
+
+  /* Motion — easing curves */
+  --ease-soft-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-soft-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Motion — spring (Framer Motion presets live in lib/motion.ts) */
+  --spring-gentle: 200ms;
+
+  /* ---------------------------------------------------------------- */
+  /* Layout — container widths                                        */
+  /* ---------------------------------------------------------------- */
+  --container-max: 1280px;
+  --container-prose: 72ch;
+}
+
+/* ---------------------------------------------------------------- */
+/* Dark palette (opt-in via `.dark` on <html>)                       */
+/* ---------------------------------------------------------------- */
+.dark {
+  --background: 24 16% 9%;
+  --foreground: 40 20% 95%;
+
+  --card: 24 14% 13%;
+  --card-foreground: 40 20% 95%;
+
+  --primary: var(--brand-400);
+  --primary-foreground: 24 18% 10%;
+
+  --secondary: 24 12% 18%;
+  --secondary-foreground: 40 18% 92%;
+
+  --accent: var(--gold-400);
+  --accent-foreground: 24 18% 10%;
+
+  --muted: 24 12% 16%;
+  --muted-foreground: 40 10% 64%;
+
+  --destructive: var(--danger);
+  --destructive-foreground: var(--danger-foreground);
+
+  --success: 142 45% 50%;
+  --success-foreground: 24 18% 10%;
+
+  --info: 212 70% 60%;
+  --info-foreground: 24 18% 10%;
+
+  --warning: 38 90% 55%;
+  --warning-foreground: 24 18% 10%;
+
+  --danger: 0 62% 55%;
+  --danger-foreground: 0 0% 100%;
+
+  --surface: 24 14% 16%;
+  --popover: 24 14% 13%;
+  --popover-foreground: 40 20% 95%;
+
+  --border: 24 12% 22%;
+  --input: 24 12% 22%;
+  --ring: var(--brand-400);
+
+  --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
+  --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.4), 0 1px 2px -1px hsl(0 0% 0% / 0.4);
+  --shadow-md: 0 4px 12px -2px hsl(0 0% 0% / 0.5), 0 2px 6px -2px hsl(0 0% 0% / 0.4);
+  --shadow-lg: 0 12px 28px -6px hsl(0 0% 0% / 0.6), 0 4px 10px -4px hsl(0 0% 0% / 0.5);
+  --shadow-xl: 0 24px 48px -12px hsl(0 0% 0% / 0.7), 0 8px 16px -8px hsl(0 0% 0% / 0.6);
+  --shadow-glow: 0 0 0 1px hsl(var(--accent) / 0.35), 0 8px 30px -8px hsl(var(--accent) / 0.45);
+  --shadow-glass: inset 0 1px 0 0 hsl(0 0% 100% / 0.06), 0 8px 32px -8px hsl(0 0% 0% / 0.5);
+}
+
+/* ---------------------------------------------------------------- */
+/* Responsive breakpoints (reference — defined in tailwind.config)   */
+/* sm  : 640px   base mobile-first                                  */
+/* md  : 768px   tablet                                            */
+/* lg  : 1024px  desktop                                          */
+/* xl  : 1280px  wide                                             */
+/* 2xl : 1536px  ultra-wide                                       */
+/* ---------------------------------------------------------------- */
+
+/* Respect reduced-motion globally; components also guard Framer Motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
