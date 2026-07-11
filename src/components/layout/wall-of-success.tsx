@@ -95,7 +95,7 @@ export function WallOfSuccess() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {successStories.map((story, index) => (
+          {successStories.slice(0, 3).map((story, index) => (
             <Card key={index} className="h-full flex flex-col p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-xl">
               <CardContent className="flex flex-col h-full gap-4">
                 <div className="flex items-center gap-2">

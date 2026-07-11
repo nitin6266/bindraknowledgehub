@@ -146,7 +146,7 @@ export function FreeAssessment() {
               <a href="/admissions">Book Free Assessment</a>
             </Button>
             <Button asChild variant="outline" size="lg" className="min-w-[220px] px-8 min-h-[56px]">
-              <a href="#can-we-help">Other Options</a>
+              <a href="/admissions">Other Options</a>
             </Button>
           </div>
 

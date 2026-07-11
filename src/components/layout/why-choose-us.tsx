@@ -63,7 +63,7 @@ const ctaConfig = {
   },
   secondary: {
     label: "Talk to an Academic Counsellor",
-    href: "#contact",
+    href: "/contact",
     variant: "outline" as const,
   },
 };

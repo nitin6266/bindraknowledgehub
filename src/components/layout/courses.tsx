@@ -4,6 +4,7 @@ import { Sparkles, Target, Award, BookOpen } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Section } from "@/components/ui/section";
 
@@ -109,9 +110,11 @@ export function Courses() {
           ))}
         </div>
 
-        <p className="mt-10 text-center text-body-sm text-muted-foreground">
-          All course curricula are placeholders. Full content arrives in an upcoming sprint.
-        </p>
+        <div className="mt-12 text-center">
+          <Button asChild variant="outline" size="lg" className="min-w-[220px] px-8 min-h-[52px]">
+            <a href="/courses">Explore All Programs</a>
+          </Button>
+        </div>
       </Container>
     </Section>
   );

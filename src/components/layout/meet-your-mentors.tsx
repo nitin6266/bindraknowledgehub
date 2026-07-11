@@ -94,21 +94,19 @@ export function MeetYourMentors() {
                 <p className="mt-4 text-body text-muted-foreground leading-relaxed text-center">
                   {mentor.shortProfile}
                 </p>
-
-                <Button asChild variant="outline" size="sm" className="mt-4 w-full sm:w-auto min-w-[160px]">
-                  <a href="#mentor-{mentor.name.toLowerCase().replace(/\s+/g, '-')}">
-                    Know More
-                    <ChevronRight aria-hidden="true" className="size-4 ml-2" />
-                  </a>
-                </Button>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        <p className="mt-10 text-center text-body-sm text-muted-foreground">
-          All mentor profiles are placeholders. Full content arrives in an upcoming sprint.
-        </p>
+        <div className="mt-12 text-center">
+          <Button asChild variant="outline" size="lg" className="min-w-[220px] px-8 min-h-[52px]">
+            <a href="/faculty">
+              Meet Our Faculty
+              <ChevronRight aria-hidden="true" className="size-4 ml-2" />
+            </a>
+          </Button>
+        </div>
       </Container>
     </Section>
   );

@@ -87,7 +87,7 @@ export function ParentTestimonials() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial, index) => (
+          {testimonials.slice(0, 3).map((testimonial, index) => (
             <Card key={index} className="h-full flex flex-col p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
               <CardContent className="flex flex-col h-full">
                 {/* Stars */}
@@ -134,7 +134,7 @@ export function ParentTestimonials() {
 
         <div className="mt-10 text-center">
           <Button asChild variant="outline" size="lg" className="min-w-[220px] px-8 min-h-[52px]">
-            <a href="/testimonials">View All Testimonials</a>
+            <a href="/testimonials">Read More Stories</a>
           </Button>
         </div>
       </Container>

@@ -15,26 +15,12 @@ interface NavbarProps {
   transparentTop?: boolean;
 }
 
-/** Mapping from nav titles to homepage section IDs for smooth scrolling. */
-const HOMEPAGE_ANCHORS: Record<string, string> = {
-  Home: "#hero",
-  About: "#our-story",
-  Courses: "#courses",
-  Faculty: "#meet-your-mentors",
-  Results: "#wall-of-success",
-  Testimonials: "#testimonials",
-  Gallery: "#gallery",
-  Admissions: "#free-assessment",
-  Contact: "#contact",
-};
-
 export function Navbar({ transparentTop = true }: NavbarProps) {
   const scrolled = useScrolled(24);
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const solid = !transparentTop || scrolled;
-  const isHome = pathname === "/";
 
   // Close mobile menu on route change.
   React.useEffect(() => {
@@ -64,7 +50,7 @@ export function Navbar({ transparentTop = true }: NavbarProps) {
       >
         <BrandMark />
 
-        <DesktopNav pathname={pathname} isHome={isHome} />
+        <DesktopNav pathname={pathname} />
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
@@ -77,7 +63,7 @@ export function Navbar({ transparentTop = true }: NavbarProps) {
         </div>
       </nav>
 
-      {mobileOpen && <MobileNav pathname={pathname} isHome={isHome} onClose={() => setMobileOpen(false)} />}
+      {mobileOpen && <MobileNav pathname={pathname} onClose={() => setMobileOpen(false)} />}
     </header>
   );
 }
@@ -99,21 +85,19 @@ function BrandMark() {
   );
 }
 
-function DesktopNav({ pathname, isHome }: { pathname: string; isHome: boolean }) {
+function DesktopNav({ pathname }: { pathname: string }) {
   return (
     <ul className="hidden items-center gap-1 lg:flex">
       {siteConfig.nav.map((item) => {
-        const href = isHome ? (HOMEPAGE_ANCHORS[item.title] ?? item.href) : item.href;
-        const active = isHome
-          ? false // On homepage, we don't highlight active section (could be enhanced with IntersectionObserver)
-          : item.href === "/"
-          ? pathname === "/"
-          : pathname.startsWith(item.href);
+        const active =
+          item.href === "/"
+            ? pathname === "/"
+            : pathname.startsWith(item.href);
 
         return (
           <li key={item.href}>
             <Link
-              href={href}
+              href={item.href}
               aria-current={active ? "page" : undefined}
               className={cn(
                 "rounded-full px-4 py-2 text-body-sm font-medium transition-colors duration-fast hover:bg-muted",
@@ -146,11 +130,9 @@ function MobileToggle({ open, onToggle }: { open: boolean; onToggle: () => void 
 
 function MobileNav({
   pathname,
-  isHome,
   onClose,
 }: {
   pathname: string;
-  isHome: boolean;
   onClose: () => void;
 }) {
   // Close on Escape for keyboard users.
@@ -173,17 +155,15 @@ function MobileNav({
       <div className="fixed inset-0 top-16 z-40 overflow-y-auto border-t border-border bg-background px-6 py-6 animate-enter-fade">
         <ul className="flex flex-col gap-1">
           {siteConfig.nav.map((item) => {
-            const href = isHome ? (HOMEPAGE_ANCHORS[item.title] ?? item.href) : item.href;
-            const active = isHome
-              ? false
-              : item.href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(item.href);
+            const active =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
 
             return (
               <li key={item.href}>
                 <Link
-                  href={href}
+                  href={item.href}
                   onClick={onClose}
                   aria-current={active ? "page" : undefined}
                   className={cn(

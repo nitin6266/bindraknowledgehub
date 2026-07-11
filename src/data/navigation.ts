@@ -18,22 +18,17 @@ export const footerQuickLinks: { heading: string; items: NavItem[] }[] = [
     heading: "Academy",
     items: [
       { title: "About", href: "/about" },
+      { title: "Courses", href: "/courses" },
       { title: "Faculty", href: "/faculty" },
       { title: "Results", href: "/results" },
     ],
   },
   {
-    heading: "Programs",
+    heading: "Admissions & Contact",
     items: [
-      { title: "Courses", href: "/courses" },
       { title: "Admissions", href: "/admissions" },
-      { title: "Gallery", href: "/gallery" },
-    ],
-  },
-  {
-    heading: "Community",
-    items: [
-      { title: "Testimonials", href: "/testimonials" },
+      { title: "Book a Free Demo", href: "https://wa.me/910000000000" },
+      { title: "Community", href: "/community" },
       { title: "Contact", href: "/contact" },
     ],
   },

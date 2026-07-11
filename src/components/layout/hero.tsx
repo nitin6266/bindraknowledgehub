@@ -45,7 +45,7 @@ export function Hero() {
               <Link href="/admissions">Book a FREE Demo Class</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="w-full sm:w-auto min-h-[52px] px-8">
-              <Link href="#contact">Talk to an Academic Counsellor</Link>
+              <Link href="/contact">Talk to an Academic Counsellor</Link>
             </Button>
           </div>
 
