@@ -46,7 +46,7 @@ const mentors: Mentor[] = [
 
 export function MeetYourMentors() {
   return (
-    <Section id="meet-your-mentors" aria-labelledby="meet-your-mentors-heading" className="py-section-y-sm lg:py-section-y">
+    <Section id="meet-your-mentors" aria-labelledby="meet-your-mentors-heading" className="py-10 lg:py-section-y">
       <Container>
         <div className="mx-auto max-w-3xl text-center mb-12 lg:mb-16">
           <Badge variant="accent" className="mb-6 inline-flex">
@@ -65,7 +65,7 @@ export function MeetYourMentors() {
           {mentors.map((mentor, index) => (
             <Card
               key={index}
-              className="flex h-full flex-col items-center p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg"
+              className="flex h-full flex-col items-center p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg max-lg:rounded-2xl"
             >
               <CardContent className="flex w-full flex-col items-center gap-4 text-center">
                 <div className="inline-flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10 text-primary">

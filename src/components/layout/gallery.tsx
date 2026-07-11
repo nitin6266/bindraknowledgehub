@@ -27,7 +27,7 @@ const galleryItems: GalleryItem[] = [
 
 export function Gallery() {
   return (
-    <Section id="gallery" aria-labelledby="gallery-heading" className="bg-surface/40 py-section-y-sm lg:py-section-y">
+    <Section id="gallery" aria-labelledby="gallery-heading" className="bg-surface/40 py-10 lg:py-section-y">
       <Container>
         <div className="mx-auto max-w-3xl text-center mb-12 lg:mb-16">
           <Badge variant="accent" className="mb-4 inline-flex">
@@ -44,7 +44,7 @@ export function Gallery() {
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {galleryItems.map((item) => (
-            <Card key={item.id} className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <Card key={item.id} className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 max-lg:rounded-2xl">
               <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5">
                 <div className="relative z-10 flex h-full items-center justify-center p-8">
                   <div className="text-center">

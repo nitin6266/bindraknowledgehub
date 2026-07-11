@@ -51,7 +51,7 @@ export default function HomePage() {
 /** Slim preview of the full story — links to the /about page. */
 function StoryPreview() {
   return (
-    <Section className="bg-surface/40">
+    <Section className="bg-surface/40 py-10 lg:py-section-y">
       <Container>
         <Surface tone="card" shadow="sm" radius="xl" className="overflow-hidden">
           <div className="grid items-center gap-8 p-8 md:grid-cols-2 md:p-10">
@@ -87,7 +87,7 @@ function StoryPreview() {
 /** Closing conversion band — one clear action. */
 function FinalCta() {
   return (
-    <Section>
+    <Section className="py-10 lg:py-section-y">
       <Container>
         <CtaBanner
           title="Your child's brighter beginning starts here"

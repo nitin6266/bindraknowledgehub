@@ -24,7 +24,7 @@ export function TrustBar() {
     <section
       id="trust-bar"
       aria-labelledby="trust-bar-heading"
-      className="border-y border-border/50 bg-muted/30 py-12 lg:py-16"
+      className="border-y border-border/50 bg-muted/30 py-10 lg:py-16"
     >
       <div className="mx-auto max-w-container px-6 sm:px-8 lg:px-10">
         <div className="sr-only" id="trust-bar-heading">

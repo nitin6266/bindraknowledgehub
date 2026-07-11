@@ -71,7 +71,7 @@ const testimonials : Testimonial[] = [
 
 export function ParentTestimonials() {
   return (
-    <Section id="testimonials" aria-labelledby="testimonials-heading" className="py-section-y-sm lg:py-section-y">
+    <Section id="testimonials" aria-labelledby="testimonials-heading" className="py-10 lg:py-section-y">
       <Container>
         <div className="mx-auto max-w-3xl text-center mb-12 lg:mb-16">
           <Badge variant="accent" className="mb-4 inline-flex">
@@ -88,7 +88,7 @@ export function ParentTestimonials() {
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.slice(0, 3).map((testimonial, index) => (
-            <Card key={index} className="h-full flex flex-col p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
+            <Card key={index} className="h-full flex flex-col p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg max-lg:rounded-2xl">
               <CardContent className="flex flex-col h-full">
                 {/* Stars */}
                 <div className="flex items-center gap-1 mb-4">

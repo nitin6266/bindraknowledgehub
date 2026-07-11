@@ -70,7 +70,7 @@ const ctaConfig = {
 
 export function WhyChooseUs() {
   return (
-    <Section id="why-choose-us" aria-labelledby="why-choose-us-heading" className="py-section-y-sm lg:py-section-y">
+    <Section id="why-choose-us" aria-labelledby="why-choose-us-heading" className="py-10 lg:py-section-y">
       <Container>
         <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
           <Heading
@@ -92,7 +92,7 @@ export function WhyChooseUs() {
           {features.map((feature, index) => (
             <Card
               key={index}
-              className="flex h-full flex-col items-start p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg"
+              className="flex h-full flex-col items-start p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg max-lg:rounded-2xl"
             >
               <CardContent className="flex w-full flex-col items-start gap-4">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">

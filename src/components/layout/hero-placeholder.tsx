@@ -92,7 +92,7 @@ export function HeroPlaceholderInline({
   return (
     <div
       className={cn(
-        "relative w-full aspect-[4/3] max-w-md mx-auto rounded-2xl overflow-hidden",
+        "relative w-full aspect-video max-w-md mx-auto rounded-2xl overflow-hidden",
         "bg-gradient-to-br from-primary/5 via-background to-accent/5",
         "border border-border/50",
         className,

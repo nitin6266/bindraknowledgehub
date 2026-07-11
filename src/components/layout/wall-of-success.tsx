@@ -78,7 +78,7 @@ const successStories: SuccessCard[] = [
 
 export function WallOfSuccess() {
   return (
-    <Section id="wall-of-success" aria-labelledby="wall-of-success-heading" className="py-section-y-sm lg:py-section-y">
+    <Section id="wall-of-success" aria-labelledby="wall-of-success-heading" className="py-10 lg:py-section-y">
       <Container>
         <div className="mx-auto max-w-3xl text-center mb-12 lg:mb-16">
           <Badge variant="accent" className="mb-4 inline-flex">
@@ -96,7 +96,7 @@ export function WallOfSuccess() {
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {successStories.slice(0, 3).map((story, index) => (
-            <Card key={index} className="h-full flex flex-col p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-xl">
+              <Card key={index} className="h-full flex flex-col p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-xl max-lg:rounded-2xl">
               <CardContent className="flex flex-col h-full gap-4">
                 <div className="flex items-center gap-2">
                   <IconWrapper size="md" variant="accent">

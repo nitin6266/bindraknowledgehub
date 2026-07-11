@@ -40,7 +40,7 @@ const benefits : Benefit[] = [
 
 export function FreeAssessment() {
   return (
-    <Section id="free-assessment" aria-labelledby="free-assessment-heading" className="py-section-y-sm lg:py-section-y">
+    <Section id="free-assessment" aria-labelledby="free-assessment-heading" className="py-10 lg:py-section-y">
       <Container>
         <div className="mx-auto max-w-3xl text-center mb-12 lg:mb-16">
           <Badge variant="accent" className="mb-4 inline-flex">
