@@ -120,7 +120,7 @@ export const aboutContent = {
     eyebrow: "Meet the Family",
     title: "The people behind the Hub",
     members: [
-      { name: "Mr. Mandeep Singh Bindra", role: "Co-Founder · Faculty", initials: "MB", image: "/about/Mandeep.jpg" },
+      { name: "Mr. Mandeep Singh Bindra", role: "Co-Founder · Faculty", initials: "MB", image: "/about/Mandeep.png" },
       { name: "Mrs. Manroop Kaur", role: "Co-Founder · Curriculum & Care", initials: "MK", image: "/about/ManroopKaur.png" },
       { name: "Mrs. Tejinder Kaur", role: "Founding Teacher · 20+ years", initials: "TK" },
     ] satisfies FamilyMember[],

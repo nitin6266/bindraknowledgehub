@@ -2,11 +2,11 @@
 
 import { Sparkles, Users, Award, BookOpen, Target } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { HeroWrapper } from "@/components/layout/hero-wrapper";
 import { Container } from "@/components/ui/container";
 import { Heading } from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
-import { HeroPlaceholderInline } from "@/components/layout/hero-placeholder";
 
 /** Trust chips shown on mobile (compact, first-screen trust signals). */
 const trustChips = [
@@ -87,7 +87,17 @@ export function Hero() {
 
         {/* Image (16:9 on mobile, tall on desktop) */}
         <div className="w-full lg:w-1/2 lg:max-w-lg">
-          <HeroPlaceholderInline className="w-full rounded-3xl shadow-lg lg:aspect-[4/3]" />
+          <div className="relative aspect-video w-full overflow-hidden rounded-3xl border border-border shadow-lg lg:aspect-[4/3]">
+            <Image
+              src="/about/HeroImage.png"
+              alt="Students learning with care at Bindra Knowledge Hub"
+              fill
+              priority
+              unoptimized
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </div>
         </div>
       </Container>
     </HeroWrapper>
