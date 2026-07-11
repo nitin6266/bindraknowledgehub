@@ -39,9 +39,12 @@ export function Navbar({ transparentTop = true }: NavbarProps) {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-normal ease-soft-out",
+        // Mobile/tablet (<=1024px): premium solid white branded header.
+        "border-b border-border bg-background shadow-sm backdrop-blur",
+        // Desktop (>1024px): restore scroll-based transparent -> solid behavior.
         solid
-          ? "border-b border-border bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/75"
-          : "border-b border-transparent bg-transparent",
+          ? "lg:border-b lg:border-border lg:bg-background/90 lg:backdrop-blur supports-[backdrop-filter]:lg:bg-background/75 lg:shadow-none"
+          : "lg:border-b lg:border-transparent lg:bg-transparent lg:shadow-none lg:backdrop-blur-none",
       )}
     >
       <nav
@@ -52,8 +55,8 @@ export function Navbar({ transparentTop = true }: NavbarProps) {
 
         <DesktopNav pathname={pathname} />
 
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
+        <div className="flex items-center gap-2 sm:gap-3">
+          <ThemeToggle className="max-lg:h-11 max-lg:w-11" />
 
           <Button asChild size="sm" className="hidden sm:inline-flex">
             <Link href="/admissions">Admissions</Link>
@@ -72,15 +75,25 @@ function BrandMark() {
   return (
     <Link
       href="/"
-      className="flex items-center gap-2 rounded-md font-heading text-heading-sm font-bold tracking-tight text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="flex items-center gap-2.5 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <span
         aria-hidden="true"
-        className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground"
+        className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground lg:h-9 lg:w-9"
       >
         B
       </span>
-      <span className="hidden sm:inline">{siteConfig.name}</span>
+      {/* Mobile/tablet: two-line branded wordmark (always visible) */}
+      <span className="flex flex-col leading-none lg:hidden">
+        <span className="font-heading text-[15px] font-bold tracking-tight text-foreground">
+          Bindra
+        </span>
+        <span className="text-body-xs font-medium text-muted-foreground">Knowledge Hub</span>
+      </span>
+      {/* Desktop: single-line name */}
+      <span className="hidden font-heading text-heading-sm font-bold tracking-tight text-foreground lg:inline">
+        {siteConfig.name}
+      </span>
     </Link>
   );
 }

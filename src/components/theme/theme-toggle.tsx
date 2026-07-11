@@ -9,7 +9,7 @@ import { useTheme } from "./theme-provider";
  * (system mode resolves to whichever is currently applied). Announces its
  * intent via an aria-label that reflects the next state.
  */
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, toggleTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
@@ -17,6 +17,7 @@ export function ThemeToggle() {
     <IconButton
       variant="ghost"
       size="sm"
+      className={className}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       onClick={toggleTheme}
     >
