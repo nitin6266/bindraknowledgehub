@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -28,17 +29,22 @@ export function SubmitButton({
   variant = "cta",
   ...props
 }: SubmitButtonProps) {
+  // Reflect server-action pending state automatically so forms wired to
+  // server actions show a spinner without manual prop passing.
+  const { pending } = useFormStatus();
+  const isLoading = loading || pending;
+
   return (
     <Button
       type={type}
-      disabled={disabled || loading}
-      loading={loading}
+      disabled={disabled || isLoading}
+      loading={isLoading}
       size={size}
       variant={variant}
       className={cn(fullWidth ? "w-full sm:w-auto" : "", className)}
       {...props}
     >
-      {loading ? loadingText : children}
+      {isLoading ? loadingText : children}
     </Button>
   );
 }

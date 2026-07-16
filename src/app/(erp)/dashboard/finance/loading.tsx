@@ -1,5 +1,6 @@
-import { PageLoader } from "@/components/ui/loading";
+import { PageSkeleton } from "@/components/ui/page-skeleton";
 
 export default function DashboardLoading() {
-  return <PageLoader label="Loading dashboard" />;
+  return <PageSkeleton cards={3} />;
 }
+

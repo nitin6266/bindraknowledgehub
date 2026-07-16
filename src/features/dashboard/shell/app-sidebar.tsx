@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PanelLeftClose, PanelLeft } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { type NavRoot, type WorkspaceId, getRootsForRole } from "@/features/dashboard/shell/nav";
+import { AppLink } from "@/components/ui/app-link";
 import type { Role } from "@/constants/roles";
 
 interface AppSidebarProps {
@@ -78,7 +78,7 @@ function SidebarRoot({ root, collapsed, isActive }: SidebarRootProps) {
   if (collapsed) {
     return (
       <li>
-        <Link
+        <AppLink
           href={root.href}
           className={cn(
             "flex h-10 w-10 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -89,14 +89,14 @@ function SidebarRoot({ root, collapsed, isActive }: SidebarRootProps) {
           aria-current={isActive ? "page" : undefined}
         >
           <Icon className="h-5 w-5" aria-hidden="true" />
-        </Link>
+        </AppLink>
       </li>
     );
   }
 
   return (
     <li>
-      <Link
+      <AppLink
         href={root.href}
         className={cn(
           "flex items-center gap-3 rounded-lg px-3 py-2 text-body font-medium transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -106,7 +106,7 @@ function SidebarRoot({ root, collapsed, isActive }: SidebarRootProps) {
       >
         <Icon className="h-5 w-5 shrink-0" aria-hidden="true" />
         <span className="truncate">{root.label}</span>
-      </Link>
+      </AppLink>
     </li>
   );
 }

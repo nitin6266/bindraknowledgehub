@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 
+import { Suspense } from "react";
 import { AppHeader } from "@/features/dashboard/shell/app-header";
 import { AppSidebar } from "@/features/dashboard/shell/app-sidebar";
+import { RouteProgress } from "@/components/ui/route-progress";
 import type { Role } from "@/constants/roles";
 
 interface AppShellProps {
@@ -27,6 +29,10 @@ export function AppShell({ children, role }: AppShellProps) {
 
   return (
     <div className="flex min-h-screen bg-background text-foreground">
+      <Suspense fallback={null}>
+        <RouteProgress />
+      </Suspense>
+
       <AppSidebar
         role={role}
         collapsed={collapsed}
