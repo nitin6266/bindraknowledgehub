@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, Check, Loader2, Download, MoreHorizontal } from "lucide-react";
 
@@ -27,6 +27,7 @@ interface AttendancePageClientProps {
   options: {
     batches: Option[];
   };
+  defaultBatchId?: string;
 }
 
 interface AttendanceStudent {
@@ -35,9 +36,9 @@ interface AttendanceStudent {
   fullName: string;
 }
 
-export function AttendancePageClient({ options }: AttendancePageClientProps) {
+export function AttendancePageClient({ options, defaultBatchId = "" }: AttendancePageClientProps) {
   const router = useRouter();
-  const [batchId, setBatchId] = useState("");
+  const [batchId, setBatchId] = useState(defaultBatchId);
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]!);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -46,6 +47,33 @@ export function AttendancePageClient({ options }: AttendancePageClientProps) {
   const [remarks, setRemarks] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
   const [history, setHistory] = useState<{ id: string; date: string; batchName: string; status: string }[]>([]);
+
+  useEffect(() => {
+    if (defaultBatchId) {
+      setBatchId(defaultBatchId);
+      (async () => {
+        setLoading(true);
+        setError(null);
+        try {
+          const res = await listMyStudents({ batchId: defaultBatchId });
+          const list = res.success ? (res.data as AttendanceStudent[]) : [];
+          setStudents(list);
+          setRecords((prev) => {
+            const next: Record<string, AttendanceStatusValue> = {};
+            for (const s of list) next[s.id] = prev[s.id] ?? "PRESENT";
+            return next;
+          });
+          const histRes = await listAttendanceRecords({ batchId: defaultBatchId });
+          if (histRes.success) setHistory(histRes.data as { id: string; date: string; batchName: string; status: string }[]);
+        } catch {
+          setError("Failed to load students");
+        } finally {
+          setLoading(false);
+        }
+      })();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultBatchId]);
 
   async function loadStudents() {
     if (!batchId) {
@@ -136,7 +164,33 @@ export function AttendancePageClient({ options }: AttendancePageClientProps) {
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="space-y-1.5">
               <Label htmlFor="batch">Batch</Label>
-              <Select value={batchId} onChange={(e) => setBatchId(e.target.value)}>
+              <Select
+                value={batchId}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setBatchId(value);
+                  if (value) {
+                    setLoading(true);
+                    setError(null);
+                    listMyStudents({ batchId: value }).then((res) => {
+                      const list = res.success ? (res.data as AttendanceStudent[]) : [];
+                      setStudents(list);
+                      setRecords((prev) => {
+                        const next: Record<string, AttendanceStatusValue> = {};
+                        for (const s of list) next[s.id] = prev[s.id] ?? "PRESENT";
+                        return next;
+                      });
+                      setLoading(false);
+                    });
+                    listAttendanceRecords({ batchId: value }).then((res) => {
+                      if (res.success) setHistory(res.data as { id: string; date: string; batchName: string; status: string }[]);
+                    });
+                  } else {
+                    setStudents([]);
+                    setHistory([]);
+                  }
+                }}
+              >
                 <option value="">Select batch</option>
                 {options.batches.map((o) => (
                   <option key={o.value} value={o.value}>{o.label}</option>

@@ -8,28 +8,21 @@
  * `hsl(var(--token) / <alpha>)`. Components must NEVER hardcode colors —
  * use Tailwind utilities (which read these variables) or the `hsl()` helper.
  *
- * Brand personality: Warm · Professional · Trustworthy · Premium · Hopeful.
+ * Design system: modern SaaS. Primary #A65A1E · Hover #8B4513.
  */
 
-/** Core brand scale (grounded bronze) used to derive semantic roles. */
+/** Core brand scale (bronze) used to derive semantic roles. */
 export const brand = {
-  50: "42 60% 96%",
-  100: "40 55% 90%",
-  200: "38 50% 82%",
-  300: "36 48% 70%",
-  400: "32 50% 58%",
-  500: "28 60% 46%",
-  600: "24 65% 38%",
-  700: "22 62% 32%",
-  800: "20 58% 26%",
-  900: "18 55% 20%",
-} as const;
-
-/** Hopeful gold accent scale. */
-export const gold = {
-  400: "45 92% 62%",
-  500: "43 90% 52%",
-  600: "40 88% 44%",
+  50: "30 55% 96%",
+  100: "29 52% 90%",
+  200: "28 50% 80%",
+  300: "27 52% 66%",
+  400: "26 58% 52%",
+  500: "26 70% 38%", // #A65A1E
+  600: "25 65% 31%", // #8B4513
+  700: "24 62% 26%",
+  800: "22 58% 21%",
+  900: "20 55% 16%",
 } as const;
 
 /**
@@ -38,33 +31,35 @@ export const gold = {
  * same token drives both Tailwind and runtime (charts, SVG, Framer Motion).
  */
 export const semanticColors = {
-  background: "40 33% 98%",
-  foreground: "24 12% 12%",
-  surface: "40 30% 95%",
+  background: "220 20% 98%", // #F8F9FB
+  foreground: "221 39% 11%", // #111827
+  surface: "0 0% 100%", // #FFFFFF
+  surfaceSecondary: "220 14% 96%", // #F3F4F6
   card: "0 0% 100%",
-  cardForeground: "24 12% 12%",
+  cardForeground: "221 39% 11%",
   popover: "0 0% 100%",
-  popoverForeground: "24 12% 12%",
-  primary: brand[600],
-  primaryForeground: "40 33% 98%",
-  secondary: "30 35% 92%",
-  secondaryForeground: "24 20% 22%",
-  accent: gold[500],
-  accentForeground: "24 40% 14%",
-  muted: "30 25% 94%",
-  mutedForeground: "24 8% 42%",
-  border: "30 20% 86%",
-  input: "30 20% 86%",
+  popoverForeground: "221 39% 11%",
+  primary: brand[500],
+  primaryForeground: "0 0% 100%",
+  primaryHover: brand[600],
+  secondary: "220 14% 96%",
+  secondaryForeground: "221 39% 11%",
+  accent: "220 14% 96%",
+  accentForeground: "221 39% 11%",
+  muted: "220 14% 96%",
+  mutedForeground: "220 9% 46%", // #6B7280
+  border: "220 13% 91%", // #E5E7EB
+  input: "220 13% 91%",
   ring: brand[500],
-  success: "142 55% 38%",
+  success: "142 76% 36%", // #16A34A
   successForeground: "0 0% 100%",
-  info: "212 72% 52%",
+  info: "221 83% 53%", // #2563EB
   infoForeground: "0 0% 100%",
-  warning: "38 92% 50%",
-  warningForeground: "24 40% 14%",
-  danger: "0 72% 48%",
+  warning: "38 92% 50%", // #F59E0B
+  warningForeground: "221 39% 11%",
+  danger: "0 74% 51%", // #DC2626
   dangerForeground: "0 0% 100%",
-  destructive: "0 72% 48%",
+  destructive: "0 74% 51%",
   destructiveForeground: "0 0% 100%",
 } as const;
 
@@ -72,33 +67,35 @@ export type SemanticColor = keyof typeof semanticColors;
 
 /** Dark-mode overrides — only the values that shift; rest inherit light. */
 export const darkSemanticColors: Partial<Record<SemanticColor, string>> = {
-  background: "24 16% 9%",
-  foreground: "40 20% 95%",
-  surface: "24 14% 16%",
-  card: "24 14% 13%",
-  cardForeground: "40 20% 95%",
-  popover: "24 14% 13%",
-  popoverForeground: "40 20% 95%",
+  background: "222 18% 10%",
+  foreground: "220 20% 96%",
+  surface: "222 16% 14%",
+  surfaceSecondary: "222 14% 18%",
+  card: "222 16% 14%",
+  cardForeground: "220 20% 96%",
+  popover: "222 16% 14%",
+  popoverForeground: "220 20% 96%",
   primary: brand[400],
-  primaryForeground: "24 18% 10%",
-  secondary: "24 12% 18%",
-  secondaryForeground: "40 18% 92%",
-  accent: gold[400],
-  accentForeground: "24 18% 10%",
-  muted: "24 12% 16%",
-  mutedForeground: "40 10% 64%",
-  border: "24 12% 22%",
-  input: "24 12% 22%",
+  primaryForeground: "0 0% 100%",
+  primaryHover: brand[500],
+  secondary: "222 14% 18%",
+  secondaryForeground: "220 18% 92%",
+  accent: "222 14% 18%",
+  accentForeground: "220 18% 92%",
+  muted: "222 14% 18%",
+  mutedForeground: "220 10% 64%",
+  border: "222 12% 24%",
+  input: "222 12% 24%",
   ring: brand[400],
-  success: "142 45% 50%",
-  successForeground: "24 18% 10%",
-  info: "212 70% 60%",
-  infoForeground: "24 18% 10%",
+  success: "142 60% 45%",
+  successForeground: "0 0% 100%",
+  info: "221 83% 60%",
+  infoForeground: "0 0% 100%",
   warning: "38 90% 55%",
-  warningForeground: "24 18% 10%",
-  danger: "0 62% 55%",
+  warningForeground: "222 18% 10%",
+  danger: "0 70% 58%",
   dangerForeground: "0 0% 100%",
-  destructive: "0 62% 55%",
+  destructive: "0 70% 58%",
   destructiveForeground: "0 0% 100%",
 };
 
@@ -109,7 +106,6 @@ export function hsl(token: string, alpha?: number): string {
 
 export const colors = {
   brand,
-  gold,
   semantic: semanticColors,
   dark: darkSemanticColors,
   hsl,

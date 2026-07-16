@@ -1,7 +1,7 @@
 import { listMyStudents, listMyBatches } from "@/features/teacher/actions/teacher.actions";
 import { masterDataRepository } from "@/repositories/master-data.repository";
 import { StudentsTable } from "@/features/teacher/components/students-table";
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@/features/dashboard/components/page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +25,7 @@ export default async function TeacherStudentsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="My Students" description="View students across your assigned batches" />
+      <PageHeader eyebrow="Teacher" title="My Students" description="View students across your assigned batches" />
       <StudentsTable students={students} options={options} />
     </div>
   );

@@ -60,7 +60,6 @@ const TEACHER_ROOT_NAV: NavRoot[] = [
   { label: "Assignments", href: "/dashboard/teacher/assignments", icon: ClipboardList, roles: ["SUPER_ADMIN", "ADMIN", "TEACHER"], workspaceId: "assignments" },
   { label: "Tests", href: "/dashboard/teacher/tests", icon: FileText, roles: ["SUPER_ADMIN", "ADMIN", "TEACHER"], workspaceId: "tests" },
   { label: "Marks", href: "/dashboard/teacher/marks", icon: FileText, roles: ["SUPER_ADMIN", "ADMIN", "TEACHER"], workspaceId: "marks" },
-  { label: "Students", href: "/dashboard/students", icon: GraduationCap, roles: ["SUPER_ADMIN", "ADMIN", "TEACHER", "PARENT"], workspaceId: "students" },
   { label: "Profile", href: "/dashboard/profile", icon: User, roles: ["SUPER_ADMIN", "ADMIN", "TEACHER", "PARENT"], workspaceId: "profile" },
 ];
 
@@ -98,7 +97,11 @@ export interface WorkspaceTab {
 
 export const WORKSPACE_TABS: Record<string, WorkspaceTab[]> = {
   students: [
-    { id: "list", label: "Student List", href: "/dashboard/students" },
+    { id: "list", label: "Student List", href: "/dashboard/students?tab=list" },
+    { id: "admissions", label: "Admissions", href: "/dashboard/students?tab=admissions" },
+    { id: "promotions", label: "Promotions", href: "/dashboard/students?tab=promotions" },
+    { id: "transfers", label: "Transfers", href: "/dashboard/students?tab=transfers" },
+    { id: "documents", label: "Documents", href: "/dashboard/students?tab=documents" },
   ],
   teachers: [
     { id: "list", label: "Teacher List", href: "/dashboard/teachers" },

@@ -7,9 +7,7 @@ import { masterDataRepository } from "@/repositories/master-data.repository";
 import { prisma } from "@/database/prisma";
 import { canManageStudent, isTeacherScoped, isParentScoped } from "@/features/student/student.constants";
 import type { Option, StudentFilters } from "@/features/student/student.types";
-import { StudentListClient } from "@/features/student/components/student-list-client";
-import { PageHeader } from "@/features/dashboard/components/page-header";
-import { AppWorkspaceTabs } from "@/features/dashboard/shell/app-workspace-tabs";
+import { StudentsWorkspace } from "@/features/student/components/students-workspace";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +18,7 @@ interface StudentsPageProps {
     batchId?: string;
     status?: string;
     search?: string;
+    tab?: string;
   }>;
 }
 
@@ -64,14 +63,6 @@ export default async function StudentsPage({ searchParams }: StudentsPageProps) 
   };
 
   return (
-    <div className="space-y-6">
-      <PageHeader
-        eyebrow="Management"
-        title="Student Management"
-        description="Admit, track and manage every student across batches and sessions."
-      />
-      <AppWorkspaceTabs workspace="students" />
-      <StudentListClient students={students} options={options} canManage={canManage} />
-    </div>
+    <StudentsWorkspace students={students} options={options} canManage={canManage} />
   );
 }

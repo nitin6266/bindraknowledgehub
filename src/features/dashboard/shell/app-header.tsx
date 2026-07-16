@@ -21,10 +21,9 @@ export function AppHeader({ role, onMenuClick }: AppHeaderProps) {
   return (
     <header
       className={cn(
-        "fixed left-0 right-0 top-0 z-40 flex h-16 items-center justify-between gap-4 border-b border-border bg-card",
+        "sticky top-0 z-20 flex h-16 items-center justify-between gap-4 border-b border-border bg-card",
         "px-4 supports-[backdrop-filter]:bg-card/95 supports-[backdrop-filter]:backdrop-blur",
       )}
-      style={{ height: "64px" }}
       role="banner"
     >
       <div className="flex min-w-0 items-center gap-3">

@@ -31,12 +31,11 @@ export function AppSidebar({ role, collapsed, onToggle, mobileOpen, onMobileClos
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 left-0 z-50 flex flex-col border-r border-border bg-card transition-[width] duration-200",
+        "fixed inset-y-0 left-0 z-40 flex shrink-0 flex-col border-r border-border bg-card transition-[width,transform] duration-200 ease-standard",
+        "lg:sticky lg:top-0 lg:h-screen lg:translate-x-0",
         collapsed ? "w-[72px]" : "w-[240px]",
-        "lg:translate-x-0",
         mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
       )}
-      style={{ top: 0, paddingTop: "64px" }}
       aria-label="Primary navigation"
     >
       <nav className="flex-1 overflow-y-auto px-2 py-3">

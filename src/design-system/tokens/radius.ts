@@ -8,12 +8,14 @@
 
 export const radius = {
   none: "0",
-  sm: "0.375rem",
-  /** Default control radius. */
+  sm: "0.5rem",
+  /** Default control radius — buttons, inputs (10px). */
   md: "0.625rem",
+  /** Cards (16px). */
   lg: "1rem",
-  xl: "1.5rem",
-  "2xl": "2rem",
+  /** Dialogs (20px). */
+  xl: "1.25rem",
+  "2xl": "1.5rem",
   /** Fully rounded (pills, avatars). */
   full: "9999px",
 } as const;

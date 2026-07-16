@@ -1,7 +1,8 @@
 import Link from "next/link";
 
 import { listAssignments } from "@/features/teacher/actions/teacher.actions";
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@/features/dashboard/components/page-header";
+import { AppWorkspaceTabs } from "@/features/dashboard/shell/app-workspace-tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,11 +24,13 @@ export default async function TeacherAssignmentsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <PageHeader title="Assignments" description="Create and manage assignments for your batches" />
+        <PageHeader eyebrow="Teacher" title="Assignments" description="Create and manage assignments for your batches" />
         <Button asChild>
           <Link href="/dashboard/teacher/assignments/new">New Assignment</Link>
         </Button>
       </div>
+
+      <AppWorkspaceTabs workspace="assignments" />
 
       <Card>
         <CardContent className="pt-6">
