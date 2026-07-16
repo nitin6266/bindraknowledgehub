@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getUserRole } from "@/lib/auth/role";
 import { ROLE_ROUTES } from "@/constants/routes";
 import { ROLE_DEFAULT_DASHBOARD, type Role } from "@/constants/roles";
-import { DashboardShell } from "@/features/dashboard/components/dashboard-shell";
+import { AppShell } from "@/features/dashboard/shell/app-shell";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -33,5 +33,5 @@ export default async function DashboardLayout({ children }: { children: React.Re
     }
   }
 
-  return <DashboardShell role={role}>{children}</DashboardShell>;
+  return <AppShell role={role}>{children}</AppShell>;
 }

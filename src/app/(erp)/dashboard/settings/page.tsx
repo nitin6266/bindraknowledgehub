@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { userRepository } from "@/repositories/user.repository";
 import { roleRepository } from "@/repositories/role.repository";
 import { PageHeader } from "@/components/page-header";
+import { AppWorkspaceTabs } from "@/features/dashboard/shell/app-workspace-tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -37,6 +38,8 @@ export default async function SettingsPage() {
         title="Settings"
         description="Manage your account and preferences."
       />
+
+      <AppWorkspaceTabs workspace="settings" />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card>

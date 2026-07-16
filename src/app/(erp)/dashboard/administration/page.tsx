@@ -3,6 +3,7 @@ import { ROLES } from "@/constants/roles";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageHeader } from "@/features/dashboard/components/page-header";
+import { AppWorkspaceTabs } from "@/features/dashboard/shell/app-workspace-tabs";
 import { Users } from "lucide-react";
 
 export const metadata = {
@@ -28,6 +29,8 @@ export default async function AdministrationWorkspacePage() {
         title="Administration"
         description="User and system management."
       />
+
+      <AppWorkspaceTabs workspace="administration" />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {adminItems.map((item) => (

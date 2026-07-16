@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Wallet, TrendingUp, AlertTriangle, CalendarClock } from "lucide-react";
 
 import { PageHeader } from "@/features/dashboard/components/page-header";
+import { AppWorkspaceTabs } from "@/features/dashboard/shell/app-workspace-tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -30,6 +31,8 @@ export default async function FinanceDashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader title="Finance Dashboard" description="Fee collection overview and outstanding balances" />
+
+      <AppWorkspaceTabs workspace="finance" />
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard

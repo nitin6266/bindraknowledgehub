@@ -3,13 +3,13 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Home } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 const LABELS: Record<string, string> = {
   dashboard: "Dashboard",
-  admin: "Admin",
+  admin: "Administration",
   teacher: "Teacher",
   parent: "Parent",
   students: "Students",
@@ -19,11 +19,12 @@ const LABELS: Record<string, string> = {
   reports: "Reports",
   notifications: "Notifications",
   settings: "Settings",
+  academics: "Academics",
   academic: "Academic",
-  "academic-sessions": "Academic Sessions",
-  "batch-types": "Batch Types",
-  "batch-timings": "Batch Timings",
-  "time-slots": "Time Slots",
+  "academic-session": "Academic Sessions",
+  "batch-type": "Batch Types",
+  "batch-timing": "Batch Timings",
+  "time-slot": "Time Slots",
   "academic-calendar": "Academic Calendar",
   batches: "Batches",
   sections: "Sections",
@@ -38,26 +39,24 @@ const LABELS: Record<string, string> = {
   receipts: "Receipts",
   outstanding: "Outstanding",
   users: "Users",
-  parents: "Parents",
   profile: "Profile",
-  roles: "Roles & Permissions",
-  "api-keys": "API Keys",
-  database: "Database",
-  integrations: "Integrations",
-  "email-templates": "Email Templates",
-  system: "System Settings",
-  general: "General",
   appearance: "Appearance",
-  backup: "Backup & Archive",
+  children: "My Children",
+  results: "Results",
+  fees: "Fees",
+  leave: "Leave Requests",
+  documents: "Documents",
+  announcements: "Announcements",
+  batch: "Batches",
 };
 
-export function Breadcrumb({ className }: { className?: string }) {
+interface AppBreadcrumbProps {
+  className?: string;
+}
+
+export function AppBreadcrumb({ className }: AppBreadcrumbProps) {
   const pathname = usePathname();
   const segments = pathname.split("/").filter(Boolean);
-
-  if (segments.length === 0) {
-    return null;
-  }
 
   const crumbs = segments.map((segment, index) => {
     const href = `/${segments.slice(0, index + 1).join("/")}`;
@@ -67,7 +66,23 @@ export function Breadcrumb({ className }: { className?: string }) {
 
   return (
     <nav aria-label="Breadcrumb" className={cn("min-w-0", className)}>
-      <ol className="flex flex-wrap items-center gap-1 text-body-sm text-muted-foreground">
+      <ol className="flex flex-wrap items-center gap-1.5 text-body-sm text-muted-foreground">
+        <li>
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-1 rounded-md p-1 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <Home className="h-4 w-4" aria-hidden="true" />
+            <span className="sr-only">Dashboard</span>
+          </Link>
+        </li>
+
+        {crumbs.length > 0 && (
+          <li aria-hidden="true">
+            <ChevronRight className="h-4 w-4" />
+          </li>
+        )}
+
         {crumbs.map((crumb, index) => {
           const isLast = index === crumbs.length - 1;
           return (
@@ -86,11 +101,11 @@ export function Breadcrumb({ className }: { className?: string }) {
                   </Link>
                 )}
               </li>
-              {!isLast ? (
+              {!isLast && (
                 <li aria-hidden="true">
                   <ChevronRight className="h-4 w-4" />
                 </li>
-              ) : null}
+              )}
             </Fragment>
           );
         })}

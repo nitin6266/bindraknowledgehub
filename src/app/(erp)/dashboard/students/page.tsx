@@ -9,6 +9,7 @@ import { canManageStudent, isTeacherScoped, isParentScoped } from "@/features/st
 import type { Option, StudentFilters } from "@/features/student/student.types";
 import { StudentListClient } from "@/features/student/components/student-list-client";
 import { PageHeader } from "@/features/dashboard/components/page-header";
+import { AppWorkspaceTabs } from "@/features/dashboard/shell/app-workspace-tabs";
 
 export const dynamic = "force-dynamic";
 
@@ -69,6 +70,7 @@ export default async function StudentsPage({ searchParams }: StudentsPageProps) 
         title="Student Management"
         description="Admit, track and manage every student across batches and sessions."
       />
+      <AppWorkspaceTabs workspace="students" />
       <StudentListClient students={students} options={options} canManage={canManage} />
     </div>
   );

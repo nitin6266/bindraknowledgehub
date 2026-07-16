@@ -4,6 +4,7 @@ import { getModuleConfig } from "@/features/academic/master-data/config";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageHeader } from "@/features/dashboard/components/page-header";
+import { AppWorkspaceTabs } from "@/features/dashboard/shell/app-workspace-tabs";
 import { Plus, Boxes } from "lucide-react";
 
 export const metadata = {
@@ -20,6 +21,8 @@ export default async function AcademicsWorkspacePage() {
         description="Manage academic structure, curriculum, and scheduling."
         primaryAction={{ label: "New Session", href: "/dashboard/academic/academic-session/new", icon: <Plus className="h-4 w-4" /> }}
       />
+
+      <AppWorkspaceTabs workspace="academics" />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {MASTER_MODULES.map((module) => {

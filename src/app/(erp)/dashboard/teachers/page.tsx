@@ -3,6 +3,7 @@ import { ROLES } from "@/constants/roles";
 import { userRepository } from "@/repositories/user.repository";
 import { roleRepository } from "@/repositories/role.repository";
 import { PageHeader } from "@/components/page-header";
+import { AppWorkspaceTabs } from "@/features/dashboard/shell/app-workspace-tabs";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -40,6 +41,8 @@ export default async function TeachersPage({ searchParams }: TeachersPageProps) 
         title="Teachers"
         description="All teaching staff with access to the teacher portal."
       />
+
+      <AppWorkspaceTabs workspace="teachers" />
 
       {teachers.length === 0 ? (
         <EmptyState
