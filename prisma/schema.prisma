@@ -1,0 +1,966 @@
+// Bindra Knowledge Hub ERP — Prisma schema
+// Connected to Supabase PostgreSQL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+/// Application role. Mirrors a Supabase Auth app_metadata role value.
+model Role {
+  id        String   @id @default(uuid())
+  name      String   @unique // SUPER_ADMIN | ADMIN | TEACHER | PARENT
+  label     String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// ERP user. `authId` links to Supabase Auth `auth.users.id`.
+/// Soft delete is implemented via `deletedAt`.
+model User {
+  id        String     @id @default(uuid())
+  authId    String     @unique
+  email     String     @unique
+  roleId    String
+  role      Role       @relation(fields: [roleId], references: [id])
+  status    UserStatus @default(ACTIVE)
+  profile   UserProfile?
+  auditLogs AuditLog[]  @relation("AuditActor")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  deletedAt DateTime?
+
+  @@index([roleId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+model UserProfile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName String
+  lastName  String
+  phone     String?
+  gender    String?
+  photoUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  actorId    String?
+  actor      User?    @relation("AuditActor", fields: [actorId], references: [id])
+  action     String // LOGIN | LOGOUT | USER_CREATED | USER_UPDATED | PASSWORD_RESET | STATUS_CHANGED | USER_DELETED
+  entityType String?
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([action])
+  @@index([actorId])
+  @@index([createdAt])
+}
+
+// =============================================================================
+// Sprint 3 — Academic Master Data
+// =============================================================================
+
+enum SessionStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum MasterStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum CalendarEventType {
+  HOLIDAY
+  EXAM
+  PARENT_MEETING
+  RESULT
+  WORKSHOP
+}
+
+/// Academic year / session. Only one session may be ACTIVE at a time.
+model AcademicSession {
+  id          String        @id @default(uuid())
+  name        String        @unique // e.g. "2025-26"
+  startDate   DateTime
+  endDate     DateTime
+  status      SessionStatus @default(DRAFT)
+  description String?
+  classes     Class[]
+  calendarEvents AcademicCalendar[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Grade level (Class 3 … Class 12).
+model Class {
+  id           String        @id @default(uuid())
+  name         String
+  description  String?
+  displayOrder Int           @default(0)
+  status       MasterStatus  @default(ACTIVE)
+  sessionId    String?
+  session      AcademicSession? @relation(fields: [sessionId], references: [id])
+  sections     Section[]
+  subjects     SubjectClass[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
+
+  @@index([status])
+  @@index([sessionId])
+  @@index([deletedAt])
+}
+
+/// Section within a class (A, B, C, D, Custom).
+model Section {
+  id        String       @id @default(uuid())
+  name      String
+  classId   String
+  class     Class        @relation(fields: [classId], references: [id], onDelete: Cascade)
+  status    MasterStatus @default(ACTIVE)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  deletedAt DateTime?
+
+  @@index([classId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Subject taught across applicable classes.
+model Subject {
+  id          String        @id @default(uuid())
+  name        String
+  code        String        @unique
+  description String?
+  status      MasterStatus  @default(ACTIVE)
+  classes     SubjectClass[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Join table linking subjects to the classes they apply to.
+model SubjectClass {
+  subjectId String
+  classId   String
+  subject   Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  class     Class   @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+  @@id([subjectId, classId])
+}
+
+/// Reusable time slots (e.g. 08:00 – 09:00).
+model TimeSlot {
+  id           String       @id @default(uuid())
+  name         String
+  startTime    String
+  endTime      String
+  displayOrder Int          @default(0)
+  status       MasterStatus @default(ACTIVE)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  deletedAt    DateTime?
+
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Reusable batch timing templates (Morning, Evening, Weekend, Online, Custom).
+model BatchTiming {
+  id          String        @id @default(uuid())
+  name        String
+  description String?
+  status      MasterStatus  @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Batch delivery types (Offline, Online, Hybrid, Crash Course, …).
+model BatchType {
+  id          String        @id @default(uuid())
+  name        String
+  description String?
+  status      MasterStatus  @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Academic calendar events (holidays, exams, meetings, results, workshops).
+model AcademicCalendar {
+  id          String            @id @default(uuid())
+  title       String
+  description String?
+  date        DateTime
+  eventType   CalendarEventType
+  status      MasterStatus      @default(ACTIVE)
+  sessionId   String?
+  session     AcademicSession?  @relation(fields: [sessionId], references: [id])
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  deletedAt   DateTime?
+
+  @@index([eventType])
+  @@index([status])
+  @@index([sessionId])
+  @@index([deletedAt])
+}
+
+// =============================================================================
+// Sprint 4 — Batch Management
+// Cross-references to Auth (User) and Academic Master Data are stored as plain
+// UUID strings (no back-relations) to keep those models untouched.
+// =============================================================================
+
+enum BatchStatus {
+  ACTIVE
+  INACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+/// Core academic batch linking session, class, section, type and subjects.
+model Batch {
+  id             String      @id @default(uuid())
+  name           String
+  code           String      @unique
+  sessionId      String
+  classId        String
+  sectionId      String?
+  batchTypeId    String
+  capacity       Int         @default(0)
+  currentStrength Int        @default(0)
+  status         BatchStatus @default(ACTIVE)
+  description    String?
+  schedules      BatchSchedule[]
+  teachers       BatchTeacher[]
+  subjects       BatchSubject[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  deletedAt      DateTime?
+
+  @@index([status])
+  @@index([sessionId])
+  @@index([classId])
+  @@index([sectionId])
+  @@index([batchTypeId])
+  @@index([deletedAt])
+}
+
+/// Weekly schedule entries for a batch.
+model BatchSchedule {
+  id         String    @id @default(uuid())
+  batchId    String
+  batch      Batch     @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  day        DayOfWeek
+  timeSlotId String?
+  startTime  String
+  endTime    String
+  room       String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([batchId, day, startTime, endTime])
+  @@index([batchId])
+}
+
+/// Teacher assignments to a batch, with assignment history (unassignedAt).
+model BatchTeacher {
+  id           String    @id @default(uuid())
+  batchId      String
+  batch        Batch     @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  teacherId    String
+  isPrimary    Boolean   @default(false)
+  subjectId    String?
+  assignedAt   DateTime  @default(now())
+  unassignedAt DateTime?
+
+  @@unique([batchId, teacherId])
+  @@index([batchId])
+  @@index([teacherId])
+}
+
+/// Subject assignments to a batch with per-subject teacher and hours.
+model BatchSubject {
+  id           String  @id @default(uuid())
+  batchId      String
+  batch        Batch   @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  subjectId    String
+  teacherId    String?
+  weeklyHours  Int     @default(0)
+  displayOrder Int     @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([batchId, subjectId])
+  @@index([batchId])
+  @@index([subjectId])
+}
+
+// =============================================================================
+// Sprint 5 — Student Management
+// References to Auth (User) and prior modules (Session/Class/Section/Batch)
+// are stored as plain UUID strings to avoid modifying those models.
+// =============================================================================
+
+enum StudentStatus {
+  ACTIVE
+  INACTIVE
+  LEFT
+  GRADUATED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum ParentRelationship {
+  FATHER
+  MOTHER
+  GUARDIAN
+}
+
+enum DocumentType {
+  BIRTH_CERTIFICATE
+  PHOTOGRAPH
+  PREVIOUS_SCHOOL_RECORD
+  TRANSFER_CERTIFICATE
+  IDENTITY_PROOF
+}
+
+enum BatchHistoryType {
+  ALLOCATION
+  TRANSFER
+}
+
+/// Core student record with profile and current academic placement.
+model Student {
+  id             String        @id @default(uuid())
+  admissionNumber String       @unique
+  rollNumber     String?
+  firstName      String
+  lastName       String
+  gender         Gender
+  dateOfBirth    DateTime
+  bloodGroup     String?
+  photoUrl       String?
+  address        String?
+  city           String?
+  state          String?
+  country        String?       @default("India")
+  pincode        String?
+  status         StudentStatus @default(ACTIVE)
+  sessionId      String
+  classId        String
+  sectionId      String?
+  batchId        String?
+  admissionDate  DateTime      @default(now())
+  parents        StudentParent[]
+  documents      StudentDocument[]
+  emergencyContact EmergencyContact?
+  medicalInformation MedicalInformation?
+  batchHistories StudentBatchHistory[]
+  promotions     StudentPromotionHistory[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  deletedAt      DateTime?
+
+  @@index([status])
+  @@index([sessionId])
+  @@index([classId])
+  @@index([sectionId])
+  @@index([batchId])
+  @@index([admissionNumber])
+  @@index([deletedAt])
+}
+
+/// Links a student to a parent User account (role PARENT).
+model StudentParent {
+  id                  String            @id @default(uuid())
+  studentId           String
+  student             Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  parentId            String
+  relationship        ParentRelationship
+  isPrimary           Boolean           @default(false)
+  forcePasswordChange Boolean           @default(true)
+  createdAt           DateTime          @default(now())
+
+  @@unique([studentId, parentId])
+  @@index([studentId])
+  @@index([parentId])
+}
+
+/// Uploaded student documents stored in Supabase Storage.
+model StudentDocument {
+  id          String       @id @default(uuid())
+  studentId   String
+  student     Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  type        DocumentType
+  fileName    String
+  fileUrl     String
+  storagePath String
+  uploadedAt  DateTime     @default(now())
+
+  @@index([studentId])
+}
+
+model EmergencyContact {
+  id          String @id @default(uuid())
+  studentId   String @unique
+  student     Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  name        String
+  relationship String
+  phone       String
+
+  @@index([studentId])
+}
+
+model MedicalInformation {
+  id         String  @id @default(uuid())
+  studentId  String  @unique
+  student    Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  conditions String?
+  allergies  String?
+  notes      String?
+
+  @@index([studentId])
+}
+
+/// Batch allocation / transfer history for a student.
+model StudentBatchHistory {
+  id        String          @id @default(uuid())
+  studentId String
+  student   Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  batchId   String
+  type      BatchHistoryType
+  fromDate  DateTime        @default(now())
+  toDate    DateTime?
+  reason    String?
+
+  @@index([studentId])
+}
+
+/// Promotion history between academic sessions/classes.
+model StudentPromotionHistory {
+  id           String   @id @default(uuid())
+  studentId    String
+  student      Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  fromSessionId String
+  toSessionId   String
+  fromClassId   String
+  toClassId     String
+  promotedAt    DateTime @default(now())
+  note          String?
+
+  @@index([studentId])
+}
+
+// =============================================================================
+// Sprint 6 — Teacher Portal
+// References to Auth (User), Batch, Subject, Student stored as UUID strings.
+// =============================================================================
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
+
+/// Daily attendance record for a batch.
+model Attendance {
+  id          String            @id @default(uuid())
+  batchId     String
+  date        DateTime
+  markedBy    String
+  status      AttendanceStatus  @default(PRESENT)
+  note        String?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  details     AttendanceDetail[]
+
+  @@unique([batchId, date])
+  @@index([batchId])
+  @@index([date])
+}
+
+/// Per-student attendance for a daily attendance record.
+model AttendanceDetail {
+  id           String            @id @default(uuid())
+  attendanceId String
+  attendance   Attendance        @relation(fields: [attendanceId], references: [id], onDelete: Cascade)
+  studentId    String
+  status       AttendanceStatus
+  note         String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@unique([attendanceId, studentId])
+  @@index([attendanceId])
+  @@index([studentId])
+}
+
+enum AssignmentStatus {
+  DRAFT
+  PUBLISHED
+  CLOSED
+}
+
+/// Teacher assignment for a batch/subject.
+model Assignment {
+  id           String            @id @default(uuid())
+  batchId      String
+  subjectId    String
+  teacherId    String
+  title        String
+  description  String?
+  assignedDate DateTime          @default(now())
+  dueDate      DateTime
+  status       AssignmentStatus  @default(DRAFT)
+  maxScore     Int?
+  attachments  AssignmentAttachment[]
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  deletedAt    DateTime?
+
+  @@index([batchId])
+  @@index([subjectId])
+  @@index([teacherId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// File attachments for assignments stored in Supabase Storage.
+model AssignmentAttachment {
+  id           String @id @default(uuid())
+  assignmentId String
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  fileName     String
+  fileUrl      String
+  storagePath  String
+  uploadedAt   DateTime @default(now())
+
+  @@index([assignmentId])
+}
+
+enum TestStatus {
+  DRAFT
+  SCHEDULED
+  CONDUCTED
+  GRADED
+  PUBLISHED
+}
+
+/// Test/exam for a batch/subject.
+model Test {
+  id           String     @id @default(uuid())
+  batchId      String
+  subjectId    String
+  teacherId    String
+  title        String
+  description  String?
+  testDate     DateTime
+  maxScore     Int
+  status       TestStatus @default(DRAFT)
+  results      TestResult[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+
+  @@index([batchId])
+  @@index([subjectId])
+  @@index([teacherId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Per-student test result.
+model TestResult {
+  id        String   @id @default(uuid())
+  testId    String
+  test      Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+  studentId String
+  score     Int?
+  isAbsent  Boolean  @default(false)
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([testId, studentId])
+  @@index([testId])
+  @@index([studentId])
+}
+
+/// Teacher dashboard preferences (widget visibility, quick links, etc.)
+model TeacherDashboardPreference {
+  id        String   @id @default(uuid())
+  teacherId String   @unique
+  preferences Json    @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// =============================================================================
+// Sprint 7 — Parent Portal
+// References to Auth (User), Student, Batch stored as UUID strings.
+// =============================================================================
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum AnnouncementAudience {
+  ALL
+  BATCH
+}
+
+/// Leave applications submitted by parents for their children.
+model LeaveRequest {
+  id             String      @id @default(uuid())
+  studentId      String
+  parentId       String
+  fromDate       DateTime
+  toDate         DateTime
+  reason         String
+  attachmentUrl  String?
+  attachmentPath String?
+  status         LeaveStatus @default(PENDING)
+  reviewNote     String?
+  reviewedById   String?
+  reviewedAt     DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  deletedAt      DateTime?
+
+  @@index([studentId])
+  @@index([parentId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Announcements published by SUPER_ADMIN, ADMIN or teachers (per batch).
+model Announcement {
+  id          String               @id @default(uuid())
+  title       String
+  body        String
+  audience    AnnouncementAudience @default(ALL)
+  batchId     String?
+  publishedById String
+  status      String               @default("PUBLISHED")
+  publishedAt DateTime             @default(now())
+  createdAt  DateTime              @default(now())
+  updatedAt  DateTime              @updatedAt
+  deletedAt  DateTime?
+
+  @@index([audience])
+  @@index([batchId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Per-parent UI preferences (selected child, widget toggles, etc.)
+model ParentPreference {
+  id             String   @id @default(uuid())
+  parentId       String   @unique
+  preferences    Json     @default("{}")
+  selectedChildId String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+/// Audit log of document downloads/access by parents.
+model DocumentAccessLog {
+  id           String   @id @default(uuid())
+  parentId     String
+  studentId    String?
+  documentType String
+  documentId   String?
+  documentUrl  String?
+  accessedAt   DateTime @default(now())
+
+  @@index([parentId])
+  @@index([studentId])
+}
+
+// =============================================================================
+// Sprint 8 — Finance & Fee Management
+// All money amounts stored as Decimal. References to Auth (User), Student,
+// Batch and master data (Class, Session) kept as plain UUID strings so that
+// previous modules are not modified.
+// =============================================================================
+
+enum FeeStatus {
+  PENDING
+  PARTIAL
+  PAID
+  OVERDUE
+  WAIVED
+}
+
+enum DiscountType {
+  SIBLING
+  MERIT
+  SPECIAL
+  CUSTOM
+}
+
+enum DiscountMode {
+  FIXED
+  PERCENTAGE
+}
+
+enum DiscountStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PaymentMode {
+  CASH
+  UPI
+  BANK_TRANSFER
+  CHEQUE
+  ONLINE
+}
+
+enum LedgerType {
+  CHARGE
+  PAYMENT
+  DISCOUNT
+  ADJUSTMENT
+}
+
+enum AssignmentType {
+  SINGLE
+  BATCH
+  CLASS
+  SESSION
+}
+
+enum InstallmentStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+/// Fee categories (Admission Fee, Monthly Tuition, etc.)
+model FeeCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  status      String   @default("ACTIVE")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Template fee definition for a session/class/batch/category.
+model FeeStructure {
+  id              String   @id @default(uuid())
+  sessionId       String
+  classId         String
+  batchId         String?
+  categoryId      String
+  amount          Decimal
+  dueDate         DateTime?
+  lateFeeAmount   Decimal  @default(0)
+  lateFeeAfterDays Int      @default(0)
+  status          String    @default("ACTIVE")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  @@index([sessionId])
+  @@index([classId])
+  @@index([batchId])
+  @@index([categoryId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// A fee assigned to a student (generated from a structure or standalone).
+model StudentFee {
+  id             String   @id @default(uuid())
+  studentId      String
+  structureId    String?
+  sessionId      String
+  classId        String
+  categoryId     String
+  batchId        String?
+  assignmentType String   @default("SINGLE")
+  totalAmount    Decimal
+  discountAmount Decimal  @default(0)
+  paidAmount     Decimal  @default(0)
+  dueAmount      Decimal  @default(0)
+  status         String   @default("PENDING")
+  dueDate        DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
+
+  @@index([studentId])
+  @@index([sessionId])
+  @@index([classId])
+  @@index([batchId])
+  @@index([categoryId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Installment schedule for a student fee.
+model StudentFeeInstallment {
+  id         String   @id @default(uuid())
+  studentFeeId String
+  dueDate    DateTime?
+  amount     Decimal
+  status     String   @default("PENDING")
+  paidDate   DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+
+  @@index([studentFeeId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Discounts / scholarships applied to a student fee.
+model FeeDiscount {
+  id              String   @id @default(uuid())
+  studentFeeId    String
+  studentId       String
+  type            String
+  mode            String
+  value           Decimal
+  amount          Decimal  @default(0)
+  reason          String?
+  approvedBy      String?
+  approvalRequired Boolean @default(false)
+  status          String   @default("PENDING")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  @@index([studentFeeId])
+  @@index([studentId])
+  @@index([status])
+  @@index([deletedAt])
+}
+
+/// Recorded payment against a student fee.
+model FeePayment {
+  id            String   @id @default(uuid())
+  studentFeeId  String
+  studentId     String
+  receiptId     String?
+  amount        Decimal
+  mode          String
+  transactionRef String?
+  collectedById String
+  paymentDate   DateTime  @default(now())
+  remarks       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  @@index([studentFeeId])
+  @@index([studentId])
+  @@index([receiptId])
+  @@index([paymentDate])
+  @@index([deletedAt])
+}
+
+/// Generated receipt for a payment (or consolidated balance).
+model FeeReceipt {
+  id            String   @id @default(uuid())
+  receiptNumber String   @unique
+  studentFeeId  String
+  studentId     String
+  parentId      String?
+  totalAmount   Decimal
+  discountAmount Decimal
+  paidAmount    Decimal
+  balance       Decimal
+  generatedById String
+  meta          Json?
+  generatedAt   DateTime  @default(now())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  @@index([studentFeeId])
+  @@index([studentId])
+  @@index([receiptNumber])
+  @@index([deletedAt])
+}
+
+/// Per-student-fee transaction ledger.
+model FeeLedger {
+  id           String   @id @default(uuid())
+  studentFeeId String
+  studentId    String
+  type         String
+  amount       Decimal
+  balanceAfter Decimal
+  referenceId  String?
+  description  String?
+  createdAt    DateTime  @default(now())
+
+  @@index([studentFeeId])
+  @@index([studentId])
+  @@index([type])
+}

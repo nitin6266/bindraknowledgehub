@@ -85,9 +85,9 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Image (16:9 on mobile, tall on desktop) */}
-        <div className="w-full lg:w-1/2 lg:max-w-lg">
-          <div className="relative aspect-video w-full overflow-hidden rounded-3xl border border-border shadow-lg lg:aspect-[4/3]">
+        {/* Image — full-bleed on mobile, constrained on desktop */}
+        <div className="-mx-6 w-full lg:mx-0 lg:w-1/2 lg:max-w-lg">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-border shadow-lg lg:aspect-[4/3]">
             <Image
               src="/about/HeroImage.png"
               alt="Students learning with care at Bindra Knowledge Hub"
