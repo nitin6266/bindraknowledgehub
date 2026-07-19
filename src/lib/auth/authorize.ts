@@ -1,7 +1,7 @@
-import { forbidden, redirect } from "next/navigation";
+import { forbidden } from "next/navigation";
 
 import { getUserRole } from "@/lib/auth/role";
-import { ROLE_DEFAULT_DASHBOARD, type Role } from "@/constants/roles";
+import type { Role } from "@/constants/roles";
 
 /**
  * Returns the current user's role, or `null` when unauthenticated.
@@ -19,18 +19,6 @@ export async function assertRole(allowed: Role[]): Promise<Role> {
   const role = await getUserRole();
   if (!role || !allowed.includes(role)) {
     forbidden();
-  }
-  return role;
-}
-
-/**
- * Redirects to the role's default dashboard when not allowed.
- * Use inside server components where a soft redirect is preferred.
- */
-export async function requireRoleRedirect(allowed: Role[]): Promise<Role> {
-  const role = await getUserRole();
-  if (!role || !allowed.includes(role)) {
-    redirect(ROLE_DEFAULT_DASHBOARD[role ?? "PARENT"]);
   }
   return role;
 }

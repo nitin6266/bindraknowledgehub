@@ -60,19 +60,9 @@ export const buttonHover = {
   transition: transitions.fast,
 };
 
-/** Hover affordance — stronger lift + elevation for cards. */
-export const cardHover = {
-  whileHover: { y: -4 },
-  transition: transitions.normal,
-};
-
 /** Hover affordance — subtle lift for icon/feature containers. */
 export const hoverLift = {
   whileHover: { y: -2 },
   transition: transitions.normal,
 };
 
-/** Animated count-up helper (drives the AnimatedCounter component). */
-export function countUp(from: number, to: number, durationMs = 1200) {
-  return { from, to, durationMs };
-}

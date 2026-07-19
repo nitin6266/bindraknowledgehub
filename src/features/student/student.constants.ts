@@ -30,11 +30,8 @@ export const DOCUMENT_TYPE_OPTIONS = [
 export type StudentStatusValue = (typeof STUDENT_STATUS_OPTIONS)[number]["value"];
 export type GenderValue = (typeof GENDER_OPTIONS)[number]["value"];
 export type ParentRelationshipValue = (typeof PARENT_RELATIONSHIP_OPTIONS)[number]["value"];
-export type DocumentTypeValue = (typeof DOCUMENT_TYPE_OPTIONS)[number]["value"];
 
-/** Aliases used by admission and document components. */
-export const STUDENT_GENDER_OPTIONS = GENDER_OPTIONS;
-export const STUDENT_RELATIONSHIP_OPTIONS = PARENT_RELATIONSHIP_OPTIONS;
+
 export const STUDENT_DOCUMENT_TYPES = DOCUMENT_TYPE_OPTIONS;
 
 /** Roles that can open the Student Management console. */

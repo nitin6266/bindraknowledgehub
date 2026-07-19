@@ -25,12 +25,6 @@ export type AttendanceStatusValue = (typeof ATTENDANCE_STATUS_OPTIONS)[number]["
 export type AssignmentStatusValue = (typeof ASSIGNMENT_STATUS_OPTIONS)[number]["value"];
 export type TestStatusValue = (typeof TEST_STATUS_OPTIONS)[number]["value"];
 
-export const TEACHER_PORTAL_ROLES: Role[] = ["SUPER_ADMIN", "ADMIN", "TEACHER"];
-
-export function canManageTeacherPortal(role: Role | null): boolean {
-  return role === "SUPER_ADMIN" || role === "ADMIN" || role === "TEACHER";
-}
-
 export function isTeacherScoped(role: Role | null): boolean {
   return role === "TEACHER";
 }

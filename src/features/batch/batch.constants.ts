@@ -32,7 +32,3 @@ export function canManageBatch(actor: Role | null): boolean {
 export function isTeacherScoped(actor: Role | null): boolean {
   return actor === "TEACHER";
 }
-
-export const BATCH_NAV = {
-  list: "/dashboard/academic/batch",
-} as const;

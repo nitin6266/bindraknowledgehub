@@ -123,22 +123,6 @@ export interface StudentDetail {
   currentBatch: { id: string; name: string } | null;
 }
 
-export interface EmergencyContactValues {
-  contactName: string;
-  relationship: string;
-  phoneNumber: string;
-  alternatePhone?: string;
-  email?: string;
-}
-
-export interface MedicalInformationValues {
-  bloodGroup?: string;
-  medicalConditions?: string;
-  allergies?: string;
-  medication?: string;
-  notes?: string;
-}
-
 export type { UpdateStudentValues } from "@/features/student/student.schemas";
 
 export interface Option {
