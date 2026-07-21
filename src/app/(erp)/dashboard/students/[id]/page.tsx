@@ -9,7 +9,6 @@ import { prisma } from "@/database/prisma";
 import { canManageStudent, isTeacherScoped, isParentScoped } from "@/features/student/student.constants";
 import type { Option } from "@/features/student/student.types";
 import { StudentDetailClient } from "@/features/student/components/student-detail-client";
-import { PageHeader } from "@/components/page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -58,15 +57,7 @@ export default async function StudentDetailPage({ params }: StudentDetailPagePro
     batches: batches.map((b) => ({ value: b.id, label: b.name })) as Option[],
   };
 
-  const fullName = `${detail.student.firstName} ${detail.student.lastName}`.trim();
-
   return (
-    <div className="space-y-6">
-      <PageHeader
-        eyebrow={`Admission ${detail.student.admissionNumber}`}
-        title={fullName}
-      />
-      <StudentDetailClient detail={detail} options={options} canManage={canManage} />
-    </div>
+    <StudentDetailClient detail={detail} options={options} canManage={canManage} />
   );
 }

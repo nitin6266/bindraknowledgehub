@@ -23,6 +23,9 @@ export interface StudentRow {
   sectionName: string | null;
   batchName: string | null;
   primaryParentName: string | null;
+  primaryParentPhone?: string | null;
+  rollNumber?: string | null;
+  photoUrl?: string | null;
   createdAt: string;
   deletedAt: string | null;
 }
