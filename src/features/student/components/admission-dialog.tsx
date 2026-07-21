@@ -116,22 +116,22 @@ export function AdmissionDialog({ open, onOpenChange, options, onSubmit }: Admis
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[88vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="!p-0 flex flex-col max-h-[85vh] overflow-hidden">
+        <DialogHeader className="px-6 pt-6 pb-0 shrink-0">
           <DialogTitle>Student Admission</DialogTitle>
           <DialogDescription>
             Step {step + 1} of {STEPS.length}: {STEPS[step]}
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(submit)} className="space-y-4">
+        <form onSubmit={handleSubmit(submit)} className="flex-1 overflow-y-auto px-6 py-4 space-y-3 min-h-0">
           {step === 0 ? (
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2">
               <Field label="First Name" error={errors.firstName?.message}>
-                <Input {...register("firstName")} />
+                <Input inputSize="sm" {...register("firstName")} />
               </Field>
               <Field label="Last Name" error={errors.lastName?.message}>
-                <Input {...register("lastName")} />
+                <Input inputSize="sm" {...register("lastName")} />
               </Field>
               <Field label="Gender" error={errors.gender?.message}>
                 <Select {...register("gender")}>
@@ -141,39 +141,39 @@ export function AdmissionDialog({ open, onOpenChange, options, onSubmit }: Admis
                 </Select>
               </Field>
               <Field label="Date of Birth" error={errors.dateOfBirth?.message}>
-                <Input type="date" {...register("dateOfBirth")} />
+                <Input inputSize="sm" type="date" {...register("dateOfBirth")} />
               </Field>
               <Field label="Blood Group" error={errors.bloodGroup?.message}>
-                <Input {...register("bloodGroup")} placeholder="O+" />
+                <Input inputSize="sm" {...register("bloodGroup")} placeholder="O+" />
               </Field>
               <Field label="Roll Number" error={errors.rollNumber?.message}>
-                <Input {...register("rollNumber")} />
+                <Input inputSize="sm" {...register("rollNumber")} />
               </Field>
               <Field label="Address" error={errors.address?.message}>
-                <Input {...register("address")} />
+                <Input inputSize="sm" {...register("address")} />
               </Field>
               <Field label="City" error={errors.city?.message}>
-                <Input {...register("city")} />
+                <Input inputSize="sm" {...register("city")} />
               </Field>
               <Field label="State" error={errors.state?.message}>
-                <Input {...register("state")} />
+                <Input inputSize="sm" {...register("state")} />
               </Field>
               <Field label="Country" error={errors.country?.message}>
-                <Input {...register("country")} />
+                <Input inputSize="sm" {...register("country")} />
               </Field>
               <Field label="Pincode" error={errors.pincode?.message}>
-                <Input {...register("pincode")} />
+                <Input inputSize="sm" {...register("pincode")} />
               </Field>
             </div>
           ) : null}
 
           {step === 1 ? (
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2">
               <Field label="Parent First Name" error={errors.parentFirstName?.message}>
-                <Input {...register("parentFirstName")} />
+                <Input inputSize="sm" {...register("parentFirstName")} />
               </Field>
               <Field label="Parent Last Name" error={errors.parentLastName?.message}>
-                <Input {...register("parentLastName")} />
+                <Input inputSize="sm" {...register("parentLastName")} />
               </Field>
               <Field label="Relationship" error={errors.relationship?.message}>
                 <Select {...register("relationship")}>
@@ -183,19 +183,19 @@ export function AdmissionDialog({ open, onOpenChange, options, onSubmit }: Admis
                 </Select>
               </Field>
               <Field label="Parent Email" error={errors.parentEmail?.message}>
-                <Input type="email" {...register("parentEmail")} />
+                <Input inputSize="sm" type="email" {...register("parentEmail")} />
               </Field>
               <Field label="Parent Mobile" error={errors.parentMobile?.message}>
-                <Input {...register("parentMobile")} />
+                <Input inputSize="sm" {...register("parentMobile")} />
               </Field>
               <Field label="Parent Address" error={errors.parentAddress?.message}>
-                <Input {...register("parentAddress")} />
+                <Input inputSize="sm" {...register("parentAddress")} />
               </Field>
             </div>
           ) : null}
 
           {step === 2 ? (
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-2 sm:grid-cols-2">
               <Field label="Academic Session" error={errors.sessionId?.message}>
                 <Select {...register("sessionId")}>
                   <option value="">Select session</option>
@@ -229,24 +229,24 @@ export function AdmissionDialog({ open, onOpenChange, options, onSubmit }: Admis
                 </Select>
               </Field>
               <Field label="Emergency Contact Name" error={errors.emergencyName?.message}>
-                <Input {...register("emergencyName")} />
+                <Input inputSize="sm" {...register("emergencyName")} />
               </Field>
               <Field label="Emergency Relationship" error={errors.emergencyRelationship?.message}>
-                <Input {...register("emergencyRelationship")} />
+                <Input inputSize="sm" {...register("emergencyRelationship")} />
               </Field>
               <Field label="Emergency Phone" error={errors.emergencyPhone?.message}>
-                <Input {...register("emergencyPhone")} />
+                <Input inputSize="sm" {...register("emergencyPhone")} />
               </Field>
-              <div className="space-y-1.5 sm:col-span-2">
-                <Label htmlFor="medicalConditions">Medical Conditions</Label>
-                <Textarea {...register("medicalConditions")} />
+              <div className="space-y-1 sm:col-span-2">
+                <Label htmlFor="medicalConditions" className="text-xs font-medium text-slate-500 uppercase tracking-wider">Medical Conditions</Label>
+                <Textarea {...register("medicalConditions")} className="min-h-[44px]" />
               </div>
               <Field label="Allergies" error={errors.medicalAllergies?.message}>
-                <Input {...register("medicalAllergies")} />
+                <Input inputSize="sm" {...register("medicalAllergies")} />
               </Field>
-              <div className="space-y-1.5 sm:col-span-2">
-                <Label htmlFor="medicalNotes">Special Notes</Label>
-                <Textarea {...register("medicalNotes")} />
+              <div className="space-y-1 sm:col-span-2">
+                <Label htmlFor="medicalNotes" className="text-xs font-medium text-slate-500 uppercase tracking-wider">Special Notes</Label>
+                <Textarea {...register("medicalNotes")} className="min-h-[44px]" />
               </div>
             </div>
           ) : null}
@@ -254,21 +254,21 @@ export function AdmissionDialog({ open, onOpenChange, options, onSubmit }: Admis
           {serverError ? (
             <p className="rounded-md bg-destructive/10 p-3 text-body-sm text-destructive" role="alert">{serverError}</p>
           ) : null}
-
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="outline" disabled={pending}>Cancel</Button>
-            </DialogClose>
-            {step > 0 ? (
-              <Button type="button" variant="outline" onClick={() => setStep((s) => s - 1)} disabled={pending}>Back</Button>
-            ) : null}
-            {step < STEPS.length - 1 ? (
-              <Button type="button" onClick={next} disabled={pending}>Next</Button>
-            ) : (
-              <Button type="submit" loading={pending} disabled={pending}>Admit Student</Button>
-            )}
-          </DialogFooter>
         </form>
+
+        <DialogFooter className="px-6 pb-6 pt-0 shrink-0">
+          <DialogClose asChild>
+            <Button type="button" variant="outline" disabled={pending}>Cancel</Button>
+          </DialogClose>
+          {step > 0 ? (
+            <Button type="button" variant="outline" onClick={() => setStep((s) => s - 1)} disabled={pending}>Back</Button>
+          ) : null}
+          {step < STEPS.length - 1 ? (
+            <Button type="button" onClick={next} disabled={pending}>Next</Button>
+          ) : (
+            <Button type="submit" loading={pending} disabled={pending}>Admit Student</Button>
+          )}
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
@@ -276,10 +276,10 @@ export function AdmissionDialog({ open, onOpenChange, options, onSubmit }: Admis
 
 function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
   return (
-    <div className="space-y-1.5">
-      <Label>{label}</Label>
+    <div className="space-y-1">
+      <Label className="text-xs font-medium text-slate-500 uppercase tracking-wider">{label}</Label>
       {children}
-      {error ? <p className="text-body-sm text-destructive">{error}</p> : null}
+      {error ? <p className="text-body-xs text-destructive">{error}</p> : null}
     </div>
   );
 }

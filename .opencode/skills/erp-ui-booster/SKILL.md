@@ -1,3 +1,9 @@
+---
+name: erp-ui-booster
+description: Improve the ERP UI
+compatibility: opencode
+---
+
 ## Tailwind CSS Enterprise Rules
 
 ### 1. Modern Dashboard & Card Design
